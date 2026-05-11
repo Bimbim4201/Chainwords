@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chainwords Arena - Game</title>
+    <link rel="stylesheet" href="game.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="game-container">
+      <header class="game-header">
+        <h1>🎮 CHAINWORDS ARENA</h1>
+        <div class="room-info">
+          <span id="room-name">Loading...</span>
+          <span id="target-score">20 pts</span>
+        </div>
+      </header>
+
+      <section class="status-card">
+        <div class="last-word-box">
+          <div class="label">Kata Terakhir</div>
+          <div id="last-word" class="last-word">-</div>
+        </div>
+
+        <div class="turn-box">
+          <div class="label">Giliran</div>
+          <div id="current-turn" class="turn-player">Menunggu...</div>
+        </div>
+
+        <div class="timer-box">
+          <div class="label">Timer</div>
+          <div id="timer" class="timer">15</div>
+        </div>
+      </section>
+
+      <section class="players-section">
+        <h2>🏆 Skor Pemain</h2>
+        <div id="players-list" class="players-list"></div>
+      </section>
+
+      <section class="input-section">
+        <input
+          type="text"
+          id="word-input"
+          placeholder="Masukkan kata..."
+          autocomplete="off"
+        />
+        <button id="submit-word-btn">Kirim Kata</button>
+      </section>
+
+      <section class="message-section">
+        <div id="game-message" class="game-message"></div>
+      </section>
+
+      <footer class="game-footer">
+        <button id="back-lobby-btn">← Kembali ke Lobby</button>
+      </footer>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="game.js"></script>
+  </body>
+</html>

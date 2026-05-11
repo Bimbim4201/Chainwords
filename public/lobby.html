@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chainword - Battle Lobby ✨</title>
+    <link rel="stylesheet" href="lobby-style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="cheerful-bg">
+      <div class="bg-blob blob-1"></div>
+      <div class="bg-blob blob-2"></div>
+      <div class="bg-blob blob-3"></div>
+      <canvas id="particle-canvas"></canvas>
+    </div>
+
+    <div class="app-container">
+      <!-- MAIN LOBBY VIEW -->
+      <div id="main-lobby-view" class="glass-card main-lobby">
+        <div class="lobby-header">
+          <div class="brand">
+            <div class="brand-icon">
+              <i class="fas fa-link"></i>
+              <i class="fas fa-crown crown-icon"></i>
+            </div>
+            <h1 class="title-lobby">CHAINWORDS <span>ARENA</span></h1>
+          </div>
+          <p class="subtitle">✨ Siapkan kata terbaikmu! ✨</p>
+        </div>
+
+        <div class="quick-actions">
+          <button class="btn-primary btn-create" id="create-room-btn">
+            <i class="fas fa-plus-circle"></i>
+            <span>Buat Room Baru</span>
+          </button>
+          <div class="join-card">
+            <i class="fas fa-door-open join-icon"></i>
+            <input
+              type="text"
+              id="join-code-input"
+              class="join-input"
+              placeholder="Kode Room (6 digit)"
+              maxlength="6"
+            />
+            <button class="btn-join" id="join-room-btn">
+              <i class="fas fa-sign-in-alt"></i> Gabung
+            </button>
+          </div>
+        </div>
+
+        <div class="stats-banner">
+          <div class="stat-item">
+            <i class="fas fa-users"></i>
+            <span class="stat-number" id="online-count">156</span>
+            <span class="stat-label">Online</span>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-gamepad"></i>
+            <span class="stat-number" id="active-games">8</span>
+            <span class="stat-label">Active Games</span>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-trophy"></i>
+            <span class="stat-number" id="total-players">2.4k</span>
+            <span class="stat-label">Total Players</span>
+          </div>
+        </div>
+
+        <div class="room-explorer">
+          <div class="explorer-header">
+            <div class="tabs">
+              <button class="tab active" data-tab="public">
+                🌍 Public <span id="public-count">0</span>
+              </button>
+              <button class="tab" data-tab="private">
+                🔒 Private <span id="private-count">0</span>
+              </button>
+              <button class="tab" data-tab="trending">🔥 Trending</button>
+            </div>
+            <div class="search-bar">
+              <i class="fas fa-search"></i>
+              <input type="text" id="search-rooms" placeholder="Cari room..." />
+            </div>
+          </div>
+          <div id="rooms-container" class="rooms-container"></div>
+        </div>
+
+        <div class="bottom-controls">
+          <div class="sound-controls">
+            <i class="fas fa-volume-up" id="sound-icon"></i>
+            <input
+              type="range"
+              id="volume-slider"
+              min="0"
+              max="100"
+              value="70"
+            />
+            <span id="volume-value">70%</span>
+            <button id="mute-toggle" class="icon-btn">
+              <i class="fas fa-volume-up"></i>
+            </button>
+          </div>
+          <div class="profile">
+            <div class="avatar"><i class="fas fa-user-astronaut"></i></div>
+            <span id="player-name-display">Player</span>
+            <button id="edit-name-btn" class="icon-btn">
+              <i class="fas fa-pencil-alt"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL CREATE ROOM -->
+      <div id="create-room-modal" class="modal hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <i class="fas fa-rocket"></i>
+            <h2>Buat Arena Baru</h2>
+            <button class="modal-close" id="close-modal-btn">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label><i class="fas fa-tag"></i> Nama Room</label>
+              <input
+                type="text"
+                id="room-name-input"
+                placeholder="Contoh: Epic Battle"
+              />
+            </div>
+            <div class="form-group">
+              <label>Tipe Room</label>
+              <div class="type-selector">
+                <div class="type-card active" data-mode="public">🌍 Public</div>
+                <div class="type-card" data-mode="private">🔒 Private</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Max Pemain</label>
+              <div class="player-limit">
+                <div class="player-opt" data-limit="2">2</div>
+                <div class="player-opt active" data-limit="4">4</div>
+                <div class="player-opt" data-limit="6">6</div>
+                <div class="player-opt" data-limit="8">8</div>
+              </div>
+            </div>
+            <div class="settings-row">
+              <select id="room-category">
+                <option value="random">🎲 Random</option>
+                <option value="hewan">🐾 Hewan</option>
+                <option value="buah">🍎 Buah</option>
+                <option value="negara">🌏 Negara</option>
+                <option value="teknologi">💻 Teknologi</option>
+                <option value="umum">📚 Umum</option>
+              </select>
+              <input type="number" id="turn-time" value="15" min="5" max="30" />
+              detik
+              <input
+                type="number"
+                id="win-score"
+                value="20"
+                min="10"
+                max="50"
+              />
+              pts
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" id="cancel-create-btn">Batal</button>
+            <button class="btn-primary" id="confirm-create-btn">
+              Buat Room!
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MODAL EDIT NAME -->
+    <div id="name-edit-modal" class="modal hidden">
+      <div class="modal-content small">
+        <div class="modal-header">
+          <i class="fas fa-user-edit"></i>
+          <h2>Ganti Nama</h2>
+        </div>
+        <div class="modal-body">
+          <input
+            type="text"
+            id="new-name-input"
+            placeholder="Masukkan nama baru"
+          />
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" id="cancel-name-btn">Batal</button>
+          <button class="btn-primary" id="save-name-btn">Simpan</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="lobby-script.js"></script>
+  </body>
+</html>

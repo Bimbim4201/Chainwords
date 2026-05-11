@@ -1,0 +1,735 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: linear-gradient(145deg, #f9f3e6 0%, #ffe6f0 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Background ceria - clear, not blurry */
+.cheerful-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: float 20s infinite ease-in-out;
+  /* 🌟 OPTIMASI: Paksa browser pakai GPU untuk animasi ini */
+  will-change: transform;
+  transform: translateZ(0); 
+}
+
+.blob-1 {
+  width: 500px;
+  height: 500px;
+  background: #ffb347;
+  top: -150px;
+  right: -150px;
+}
+
+.blob-2 {
+  width: 600px;
+  height: 600px;
+  background: #6a5acd;
+  bottom: -200px;
+  left: -150px;
+  animation-delay: 5s;
+}
+
+.blob-3 {
+  width: 350px;
+  height: 350px;
+  background: #ff6b6b;
+  top: 40%;
+  right: 10%;
+  animation-delay: 10s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    /* 🌟 OPTIMASI: Gunakan translate3d agar lebih ringan dirender */
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(30px, -20px, 0) scale(1.05);
+  }
+}
+
+#particle-canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Container utama */
+.app-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Container utama Lobby */
+.glass-card {
+  background: #ffffff; /* Warna solid putih murni */
+  border-radius: 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  padding: 32px;
+  transition: all 0.3s ease;
+}
+
+/* Header */
+.lobby-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  font-size: 48px;
+  color: #ff8c42;
+  position: relative;
+}
+
+.crown-icon {
+  font-size: 22px;
+  color: #ffd700;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+
+.title-lobby {
+  font-size: 48px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff8c42, #ff3b6f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.title-lobby span {
+  background: linear-gradient(135deg, #6a5acd, #ff6b6b);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #4a4a6a;
+  margin-top: 8px;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff8c42, #ff3b6f);
+  border: none;
+  padding: 14px 28px;
+  border-radius: 60px;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(255, 59, 111, 0.3);
+}
+
+.join-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 60px;
+  padding: 6px 6px 6px 20px;
+  gap: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.join-icon {
+  color: #ff8c42;
+  font-size: 20px;
+}
+
+.join-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background: transparent;
+  text-transform: uppercase;
+}
+
+.join-input::placeholder {
+  text-transform: none;
+}
+
+.btn-join {
+  background: linear-gradient(135deg, #6a5acd, #ff6b6b);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 60px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-join:hover {
+  transform: scale(1.02);
+}
+
+/* Banner statistik */
+.stats-banner {
+  display: flex;
+  justify-content: space-around;
+  background: #f4f5f7; /* Warna abu-abu solid muda */
+  border-radius: 32px;
+  padding: 20px;
+  margin-bottom: 32px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item i {
+  font-size: 28px;
+  color: #ff8c42;
+}
+
+.stat-number {
+  font-size: 28px;
+  font-weight: 800;
+  color: #2d2d44;
+  display: block;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #6a6a8a;
+}
+
+/* Kotak Explorer Room */
+.room-explorer {
+  background: #f4f5f7; /* Warna abu-abu solid muda */
+  border-radius: 32px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.explorer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 12px;
+}
+
+.tab {
+  background: transparent;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 40px;
+  font-weight: 600;
+  color: #4a4a6a;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  background: white;
+  color: #ff3b6f;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+  background: white;
+  border-radius: 40px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 180px;
+}
+
+/* Rooms Container */
+.rooms-container {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.room-card {
+  background: white;
+  border-radius: 24px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.room-card:hover {
+  transform: translateX(6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.room-info h3 {
+  font-size: 18px;
+  color: #2d2d44;
+}
+
+.room-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.tag {
+  background: #f0f0f8;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #ff3b6f;
+}
+
+.join-room-btn {
+  background: #ff8c42;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 40px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.join-room-btn:hover {
+  transform: scale(1.02);
+}
+
+/* Bottom Controls */
+.bottom-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.sound-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 6px 16px;
+  border-radius: 60px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.avatar {
+  background: linear-gradient(135deg, #ff8c42, #ff3b6f);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #4a4a6a;
+  transition: color 0.2s;
+}
+
+.icon-btn:hover {
+  color: #ff8c42;
+}
+
+/* Background gelap pada Modal Pop-up */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Lebih gelap sedikit, hapus backdrop-filter */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+/* Penanganan agar transisi tetap jalan meski ada class hidden */
+.modal.hidden {
+  opacity: 0;
+  visibility: hidden;
+  display: flex !important; 
+  pointer-events: none;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 32px;
+  max-width: 500px;
+  width: 90%;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  /* Tambahan animasi membal (bouncing) */
+  transform: scale(1);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Modal mengecil saat disembunyikan */
+.modal.hidden .modal-content {
+  transform: scale(0.8);
+}
+
+.modal-content.small {
+  max-width: 380px;
+}
+
+.modal-header {
+  padding: 20px 24px;
+  background: #fff5f0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-header h2 {
+  flex: 1;
+  font-size: 20px;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #999;
+}
+
+.modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #2d2d44;
+}
+
+input,
+select {
+  padding: 12px 16px;
+  border-radius: 24px;
+  border: 1px solid #e0e0e8;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus,
+select:focus {
+  border-color: #ff8c42;
+}
+
+.type-selector,
+.player-limit {
+  display: flex;
+  gap: 12px;
+}
+
+.type-card,
+.player-opt {
+  background: #f5f5fa;
+  padding: 10px 20px;
+  border-radius: 40px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.type-card.active,
+.player-opt.active {
+  background: linear-gradient(135deg, #ff8c42, #ff3b6f);
+  color: white;
+}
+
+.settings-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid #eee;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 40px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: #f5f5f5;
+}
+
+/* Waiting Room */
+.waiting-room {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Card Waiting Room */
+.waiting-card {
+  background: #ffffff; /* Putih solid */
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* Header Waiting Room */
+.waiting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px;
+  background: #f4f5f7; /* Abu-abu solid muda */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.room-code-box {
+  background: white;
+  padding: 8px 16px;
+  border-radius: 40px;
+  font-size: 18px;
+}
+
+.waiting-body {
+  padding: 28px;
+}
+
+.waiting-body h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.room-meta {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+  color: #6a6a8a;
+}
+
+.room-meta i {
+  margin-right: 6px;
+  color: #ff8c42;
+}
+
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.player-card {
+  background: white;
+  border-radius: 24px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.player-avatar {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #ff8c42, #ff3b6f);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  font-size: 28px;
+  color: white;
+}
+
+.player-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.player-badge {
+  font-size: 12px;
+  color: #ff8c42;
+}
+
+.host-panel {
+  background: linear-gradient(135deg, #fff5f0, #ffe6f0);
+  border-radius: 28px;
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.host-settings {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.host-settings select,
+.host-settings input {
+  padding: 8px 12px;
+}
+
+.btn-start {
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  border: none;
+  padding: 14px;
+  border-radius: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  transition: transform 0.2s;
+}
+
+.btn-start:hover {
+  transform: scale(1.01);
+}
+
+.waiting-message {
+  text-align: center;
+  padding: 20px;
+  color: #6a6a8a;
+}
+
+.pulse {
+  width: 40px;
+  height: 40px;
+  background: #ff8c42;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 40px;
+  color: #6a6a8a;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #6a6a8a;
+}
+
+.empty-state i {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}

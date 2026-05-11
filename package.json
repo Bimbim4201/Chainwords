@@ -1,0 +1,14 @@
+{
+  "name": "chainwords",
+  "version": "1.0.0",
+  "description": "Realtime multiplayer word-chain game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}
