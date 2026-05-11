@@ -135,7 +135,7 @@ updateSettingsBtn.addEventListener("click", () => {
 const roomVolume = parseFloat(localStorage.getItem("bgmVolume")) || 0.5;
 const isRoomMuted = localStorage.getItem("bgmMuted") === "true";
 
-const bgmRoom = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3");
+const bgmRoom = new Audio("audio/room.mp3");
 bgmRoom.loop = true;
 bgmRoom.volume = isRoomMuted ? 0 : roomVolume;
 

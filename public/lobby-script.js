@@ -63,7 +63,7 @@ let isMuted = localStorage.getItem("bgmMuted") === "true";
 
 // Pakai link server test yang TIDAK DIBLOKIR browser. 
 // NANTI GANTI DENGAN FILE LOKAL KAMU (contoh: "audio/lobby.mp3")
-const bgmLobby = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+const bgmLobby = new Audio("audio/lobby.mp3");
 
 // Kodingan ini wajib ada biar lagunya muter terus dan suaranya pas!
 bgmLobby.loop = true;

@@ -181,7 +181,7 @@ updateUI();
 const gameVolume = parseFloat(localStorage.getItem("bgmVolume")) || 0.5;
 const isGameMuted = localStorage.getItem("bgmMuted") === "true";
 
-const bgmGame = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3");
+const bgmGame = new Audio("audio/game.mp3");
 bgmGame.loop = true;
 bgmGame.volume = isGameMuted ? 0 : gameVolume;
 
