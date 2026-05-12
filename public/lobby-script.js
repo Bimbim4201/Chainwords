@@ -54,6 +54,21 @@ const onlineCountEl = document.getElementById("online-count");
 const activeGamesEl = document.getElementById("active-games");
 const publicCountEl = document.getElementById("public-count");
 const privateCountEl = document.getElementById("private-count");
+// 🌟 Variabel Pop-up Alert
+const alertModal = document.getElementById("alert-modal");
+const alertMessage = document.getElementById("alert-message");
+const closeAlertBtn = document.getElementById("close-alert-btn");
+
+function showLobbyAlert(msg) {
+  alertMessage.textContent = msg;
+  alertModal.classList.remove("hidden");
+}
+
+if (closeAlertBtn) {
+  closeAlertBtn.addEventListener("click", () => {
+    alertModal.classList.add("hidden");
+  });
+}
 
 // =========================
 // SOUND & BACKGROUND MUSIC
@@ -249,16 +264,15 @@ function renderRooms() {
 function joinRoomByCode(code) {
   const roomCode = (code || "").trim();
   if (!roomCode) {
-    alert("Masukkan kode room!");
+    showLobbyAlert("Masukkan kode room terlebih dahulu!"); // 🌟 Ganti alert jadi showLobbyAlert
     return;
   }
 
-  // 🌟 PERBAIKAN: Hapus kata trending di sini
   const allRooms = [...availableRooms.public, ...availableRooms.private];
   const targetRoom = allRooms.find(r => r.code === roomCode);
   
   if (targetRoom && targetRoom.players >= targetRoom.maxPlayers) {
-     alert("Maaf, Room ini sudah penuh! 🔒");
+     showLobbyAlert("Maaf, Room ini sudah penuh! 🔒"); // 🌟 Ganti alert jadi showLobbyAlert
      return;
   }
 
@@ -311,7 +325,7 @@ confirmCreateBtn.addEventListener("click", createRoom);
 joinRoomBtn.addEventListener("click", () => {
   const code = joinCodeInput.value.trim();
   if (code) { joinRoomByCode(code); joinCodeInput.value = ""; } 
-  else alert("Masukkan kode room!");
+  else showLobbyAlert("Masukkan kode room terlebih dahulu!"); // 🌟 Ganti alert jadi showLobbyAlert
 });
 
 editNameBtn.addEventListener("click", () => {

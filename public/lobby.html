@@ -196,7 +196,20 @@
         </div>
       </div>
     </div>
-
+    <div id="alert-modal" class="modal hidden">
+      <div class="modal-content small" style="text-align: center;">
+        <div class="modal-header" style="background: #ffe6e6; justify-content: center; padding: 24px 24px 15px 24px;">
+          <i class="fas fa-exclamation-triangle" style="color: #ff3b6f; font-size: 28px;"></i>
+          <h2 style="color: #ff3b6f; flex: none; margin-left: 10px;">Perhatian</h2>
+        </div>
+        <div class="modal-body">
+          <p id="alert-message" style="font-size: 16px; font-weight: 600; color: #4a4a6a; margin: 10px 0;">Pesan error di sini</p>
+        </div>
+        <div class="modal-footer" style="justify-content: center; border-top: none; padding-bottom: 24px;">
+          <button class="btn-primary" id="close-alert-btn" style="width: 100%; border-radius: 40px;">Oke, Paham</button>
+        </div>
+      </div>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="lobby-script.js"></script>
   </body>
