@@ -243,7 +243,7 @@ function createRoom() {
   const maxPlayers = limitElem ? parseInt(limitElem.dataset.limit) : 4;
   const category = document.getElementById("room-category").value;
   const turnTime = parseInt(document.getElementById("turn-time").value);
-  const winScore = parseInt(document.getElementById("win-score").value);
+  const winScore = 0;
 
   const roomCode = generateRoomCode();
 

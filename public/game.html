@@ -2,21 +2,20 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Chainwords Arena - Game</title>
     <link rel="stylesheet" href="game.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
   <body>
+    <div id="toast-container" class="toast-container"></div>
+
     <div class="game-container">
       <header class="game-header">
-        <h1>🎮 CHAINWORDS ARENA</h1>
+        <h1>🎮 CHAINWORDS</h1>
         <div class="room-info">
           <span id="room-name">Loading...</span>
-          <span id="target-score">20 pts</span>
         </div>
       </header>
 
@@ -49,7 +48,7 @@
           placeholder="Masukkan kata..."
           autocomplete="off"
         />
-        <button id="submit-word-btn">Kirim Kata</button>
+        <button class="btn-primary" id="submit-word-btn">Kirim Kata</button>
       </section>
 
       <section class="message-section">
@@ -57,8 +56,25 @@
       </section>
 
       <footer class="game-footer">
-        <button id="back-lobby-btn">← Kembali ke Lobby</button>
+        <button id="back-lobby-btn">← Kembali ke Room</button>
       </footer>
+    </div>
+
+    <div id="game-over-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header modal-header-win">
+          <h2><i class="fas fa-trophy"></i> Permainan Selesai!</h2>
+        </div>
+        <div class="modal-body">
+          <h3 id="winner-name-display" class="winner-title">Pemenang</h3>
+          <p class="winner-subtitle">Berhasil mengumpulkan poin terbanyak!</p>
+          <div class="leaderboard-list" id="leaderboard-list">
+            </div>
+        </div>
+        <div class="modal-footer" style="justify-content: center;">
+          <button class="btn-primary w-100" id="play-again-btn">Tutup & Main Lagi</button>
+        </div>
+      </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>

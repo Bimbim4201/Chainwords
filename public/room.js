@@ -68,7 +68,6 @@ socket.on("roomUpdated", (room) => {
   maxPlayersDisplay.textContent = room.maxPlayers;
   roomCategoryDisplay.textContent = getCategoryDisplay(room.category);
   turnTimeDisplay.textContent = room.turnTime;
-  winScoreDisplay.textContent = room.winScore;
 
   // Render Pemain di Layar
   playersGrid.innerHTML = allPlayers.map((player) => `
@@ -85,7 +84,6 @@ socket.on("roomUpdated", (room) => {
     waitingMessage.classList.add("hidden");
     hostCategorySelect.value = room.category;
     hostTurnTime.value = room.turnTime;
-    hostWinScore.value = room.winScore;
   } else {
     hostControls.classList.add("hidden");
     waitingMessage.classList.remove("hidden");
@@ -124,8 +122,7 @@ updateSettingsBtn.addEventListener("click", () => {
   socket.emit("updateRoom", {
     roomCode: roomCode,
     category: hostCategorySelect.value,
-    turnTime: parseInt(hostTurnTime.value),
-    winScore: parseInt(hostWinScore.value)
+    turnTime: parseInt(hostTurnTime.value)
   });
 });
 
