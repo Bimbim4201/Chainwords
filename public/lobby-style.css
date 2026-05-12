@@ -733,3 +733,115 @@ select:focus {
   margin-bottom: 12px;
   opacity: 0.5;
 }
+
+
+/* ======== MOBILE RESPONSIVE (LOBBY & ROOM) ======== */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 12px;
+  }
+  
+  .glass-card, .waiting-card {
+    padding: 20px 16px;
+    border-radius: 30px;
+  }
+  
+  /* --- Perbaikan Lobby --- */
+  .brand-icon { font-size: 36px; }
+  .title-lobby { font-size: 28px; }
+  .subtitle { font-size: 14px; }
+  
+  .quick-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .btn-create, .join-card {
+    width: 100%;
+    justify-content: center;
+  }
+  .join-card {
+    padding: 8px 8px 8px 16px; 
+  }
+  
+  .stats-banner {
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 20px;
+  }
+  .stat-item { flex: 1 1 30%; }
+  .stat-number { font-size: 22px; }
+  
+  .explorer-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .tabs {
+    overflow-x: auto;
+    padding-bottom: 5px;
+    justify-content: flex-start;
+  }
+  /* Sembunyikan scrollbar pada tabs HP */
+  .tabs::-webkit-scrollbar { display: none; } 
+  
+  .search-bar, .search-bar input { width: 100%; }
+  
+  .room-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .join-room-btn { width: 100%; }
+  
+  .bottom-controls {
+    flex-direction: column-reverse; /* Profil di atas, volume di bawah */
+    gap: 15px;
+    align-items: stretch;
+  }
+  .profile { justify-content: center; }
+  .sound-controls {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  #volume-slider { width: 120px; } /* Perkecil slider biar gak keluar layar */
+
+  /* --- Perbaikan Room --- */
+  .waiting-header {
+    flex-direction: column-reverse;
+    gap: 12px;
+    padding: 15px;
+  }
+  #leave-room-btn { width: 100%; justify-content: center; }
+  
+  .waiting-body { padding: 20px 15px; }
+  .waiting-body h2 { font-size: 22px; text-align: center; }
+  
+  .room-meta {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+  
+  /* Grid Pemain jadi pas 2 kotak sejajar di HP */
+  .players-grid {
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px;
+  }
+  
+  /* Pengaturan Host dibikin nyusun ke bawah biar gampang dipencet */
+  .host-settings {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .host-settings select,
+  .host-settings input {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  /* --- Perbaikan Modal (Pop-up Buat Room) --- */
+  .modal-content { width: 95%; margin: 10px; }
+  .settings-row { flex-direction: column; align-items: stretch; }
+  .settings-row select, .settings-row input { width: 100%; }
+}
