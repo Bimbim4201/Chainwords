@@ -755,12 +755,29 @@ select:focus {
     flex-direction: column;
     gap: 12px;
   }
-  .btn-create, .join-card {
+
+  .btn-create {
     width: 100%;
     justify-content: center;
   }
+
+  /* 🌟 Bagian join input yang diperbaiki agar tidak offside */
   .join-card {
-    padding: 8px 8px 8px 16px; 
+    width: 100%;
+    padding: 6px 6px 6px 15px;
+    box-sizing: border-box;
+    justify-content: space-between;
+  }
+  
+  .join-input {
+    width: 100%;
+    min-width: 0; 
+    font-size: 14px;
+  }
+  
+  .btn-join {
+    padding: 10px 16px;
+    white-space: nowrap; 
   }
   
   .stats-banner {

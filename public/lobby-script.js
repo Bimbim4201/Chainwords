@@ -1,7 +1,7 @@
 const socket = io();
 
 // Modern & Cheerful Lobby System
-let availableRooms = { public: [], private: [], trending: [] };
+let availableRooms = { public: [], private: [] };
 let currentTab = "public";
 let searchTerm = "";
 
@@ -180,7 +180,6 @@ function renderRooms() {
   let rooms = [];
   if (currentTab === "public") rooms = [...availableRooms.public];
   else if (currentTab === "private") rooms = [...availableRooms.private];
-  else if (currentTab === "trending") rooms = [...availableRooms.trending];
 
   if (searchTerm) {
     rooms = rooms.filter(
@@ -254,8 +253,8 @@ function joinRoomByCode(code) {
     return;
   }
 
-  // 🌟 PERBAIKAN: Validasi manual jika user mengetik kode dari input teks
-  const allRooms = [...availableRooms.public, ...availableRooms.private, ...availableRooms.trending];
+  // 🌟 PERBAIKAN: Hapus kata trending di sini
+  const allRooms = [...availableRooms.public, ...availableRooms.private];
   const targetRoom = allRooms.find(r => r.code === roomCode);
   
   if (targetRoom && targetRoom.players >= targetRoom.maxPlayers) {
@@ -390,7 +389,7 @@ socket.on("updateStats", (stats) => {
 });
 
 socket.on("roomsList", (serverRooms) => {
-  availableRooms = { public: [], private: [], trending: [] };
+  availableRooms = { public: [], private: [] }; // 🌟 Hapus trending
   serverRooms.forEach((room) => {
     const roomData = {
       id: room.code, name: room.name, code: room.code, type: room.type || "public",
@@ -399,7 +398,7 @@ socket.on("roomsList", (serverRooms) => {
     };
     if (roomData.type === "public") availableRooms.public.push(roomData);
     else if (roomData.type === "private") availableRooms.private.push(roomData);
-    else availableRooms.trending.push(roomData);
+    // 🌟 Baris "else availableRooms.trending" dihapus
   });
   updateRoomCounts();
   renderRooms();
