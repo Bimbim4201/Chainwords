@@ -199,29 +199,51 @@ function renderRooms() {
   }
 
   roomsContainer.innerHTML = rooms
-    .map((room) => `
-    <div class="room-card" data-code="${room.code}">
-      <div class="room-info">
-        <h3>${room.name}</h3>
-        <div class="room-tags">
-          <span class="tag">${getCategoryDisplay(room.category)}</span>
-          <span class="tag"><i class="fas fa-users"></i> ${room.players}/${room.maxPlayers}</span>
-          <span class="tag"><i class="fas fa-clock"></i> ${room.turnTime}s</span>
+    .map((room) => {
+      const isFull = room.players >= room.maxPlayers;
+      const isPrivate = room.type === "private"; // 🌟 Deteksi room private
+
+      // 🌟 Atur tombol berdasarkan tipe dan kapasitas room
+      let btnHTML = "";
+      if (isPrivate) {
+        // Tombol mati untuk room private
+        btnHTML = `<button class="join-room-btn" style="background: #e0e0e8; color: #6a6a8a; cursor: not-allowed;" disabled><i class="fas fa-lock"></i> Gunakan Kode</button>`;
+      } else if (isFull) {
+        // Tombol mati untuk room penuh
+        btnHTML = `<button class="join-room-btn" style="background: #ccc; cursor: not-allowed;" disabled>Penuh 🔒</button>`;
+      } else {
+        // Tombol normal untuk room public yang masih kosong
+        btnHTML = `<button class="join-room-btn" data-code="${room.code}">Join <i class="fas fa-arrow-right"></i></button>`;
+      }
+
+      return `
+      <div class="room-card" data-code="${room.code}">
+        <div class="room-info">
+          <h3>${room.name}</h3>
+          <div class="room-tags">
+            <span class="tag">${getCategoryDisplay(room.category)}</span>
+            <span class="tag"><i class="fas fa-users"></i> ${room.players}/${room.maxPlayers}</span>
+            <span class="tag"><i class="fas fa-clock"></i> ${room.turnTime}s</span>
+          </div>
         </div>
-      </div>
-      <button class="join-room-btn" data-code="${room.code}">Join <i class="fas fa-arrow-right"></i></button>
-    </div>`)
+        ${btnHTML}
+      </div>`;
+    })
     .join("");
+
+  // Hapus event listener di card agar tidak bisa diklik kalau penuh
+  document.querySelectorAll(".room-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const btn = card.querySelector(".join-room-btn");
+      if (!btn.disabled) joinRoomByCode(card.dataset.code);
+    });
+  });
 
   document.querySelectorAll(".join-room-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
-      joinRoomByCode(btn.dataset.code);
+      if (!btn.disabled) joinRoomByCode(btn.dataset.code);
     });
-  });
-
-  document.querySelectorAll(".room-card").forEach((card) => {
-    card.addEventListener("click", () => joinRoomByCode(card.dataset.code));
   });
 }
 
@@ -231,6 +253,16 @@ function joinRoomByCode(code) {
     alert("Masukkan kode room!");
     return;
   }
+
+  // 🌟 PERBAIKAN: Validasi manual jika user mengetik kode dari input teks
+  const allRooms = [...availableRooms.public, ...availableRooms.private, ...availableRooms.trending];
+  const targetRoom = allRooms.find(r => r.code === roomCode);
+  
+  if (targetRoom && targetRoom.players >= targetRoom.maxPlayers) {
+     alert("Maaf, Room ini sudah penuh! 🔒");
+     return;
+  }
+
   localStorage.setItem("currentRoomCode", roomCode);
   window.location.href = "room.html";
 }

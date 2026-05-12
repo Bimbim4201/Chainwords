@@ -24,6 +24,8 @@ const waitingRoomName = document.getElementById("waiting-room-name");
 const roomCodeDisplay = document.getElementById("room-code-display");
 const playerCountSpan = document.getElementById("player-count");
 const maxPlayersDisplay = document.getElementById("max-players-display");
+const roomTypeDisplay = document.getElementById("room-type-display");
+const roomTypeIcon = document.getElementById("room-type-icon");
 const roomCategoryDisplay = document.getElementById("room-category-display");
 const turnTimeDisplay = document.getElementById("turn-time-display");
 const winScoreDisplay = document.getElementById("win-score-display");
@@ -66,6 +68,14 @@ socket.on("roomUpdated", (room) => {
   roomCodeDisplay.textContent = room.code;
   playerCountSpan.textContent = allPlayers.length;
   maxPlayersDisplay.textContent = room.maxPlayers;
+  // 🌟 TAMBAHAN: Update UI penanda Public/Private
+      if (room.type === "private") {
+        roomTypeDisplay.textContent = "Private";
+        roomTypeIcon.className = "fas fa-lock";
+      } else {
+        roomTypeDisplay.textContent = "Public";
+        roomTypeIcon.className = "fas fa-globe";
+      }
   roomCategoryDisplay.textContent = getCategoryDisplay(room.category);
   turnTimeDisplay.textContent = room.turnTime;
 
